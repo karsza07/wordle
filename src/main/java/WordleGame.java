@@ -56,7 +56,19 @@ public class WordleGame {
     }
 
     String[] getCandidates(){
+        int indeks = 0;
 
+        for(String word : this.candidates){ //usuwanie nullow
+            if(word != null){
+                indeks ++;
+            }
+        }
+        String[] copy = new String[indeks];
+
+        for(int i=0; i<indeks; i++){
+            if(this.candidates[i] != null) copy[i] = this.candidates[i];
+        }
+        return copy;
     }
 
     private FeedbackValue giveFeedback(String wordToGuess, String guess){
