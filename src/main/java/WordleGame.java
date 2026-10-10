@@ -8,7 +8,7 @@ public class WordleGame {
 
     private String gameName;
     private String wordToGuess;
-    private int guessNumber = 0;
+    private int guessNumber = 1;
 
     private String[] guesses;
     private String[] candidates;
@@ -19,7 +19,7 @@ public class WordleGame {
 
     public FeedbackValue[] gueesWord(String guess){
         this.guessNumber++;
-        if (guessNumber == 7){
+        if (guessNumber == 7){ //przy siódmej próbi nie zadziała
             throw new IllegalStateException("you have exceeded the amount of guesses");
         }
         int len = guess.length();
@@ -32,12 +32,27 @@ public class WordleGame {
             if(guess.charAt(i) == wordToGuess.charAt(i)){
                 feedback[i] = FeedbackValue.GREEN;
             }
+            else{
+                if(guess.indexOf(wordToGuess.charAt(i)) != -1){  //jeśli litera sie znajduje w słowie to nie zwróci -1
+                    feedback[i] = FeedbackValue.YELLOW;
+                }
+                else feedback[i] = FeedbackValue.GRAY; //jak nie ma litery nigdzie indziej to bedzie siwe
+            }
         }
-
+        return feedback;
     }
 
-    void applyFeedback(String guess, FeedbackValue[] feedback){
-
+    void applyFeedback(String guess, FeedbackValue[] feedback){ //filtrowanie candidates
+        for(String word : this.candidates){ //nie mozna usuwac elementu z tablicy wiec usuwany element jest zmieniany na null
+            if(word != null){ //zielone musza byc dokładnie w tym samym miejscu
+                FeedbackValue[] feedbackWord = gueesWord(word);
+                for(int i=0; i<5; i++){
+                    if (feedback[i] != feedbackWord[i]) {
+                        this.candidates[i] = null;
+                        break;}
+                }
+            }
+        }
     }
 
     String[] getCandidates(){
