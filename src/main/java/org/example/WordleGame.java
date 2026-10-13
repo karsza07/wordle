@@ -1,4 +1,5 @@
 package org.example;
+
 public class WordleGame {
     private String[] allWords = {
             "APPLE", "BEACH", "BRAIN", "BREAD", "CHAIR",
@@ -15,7 +16,7 @@ public class WordleGame {
     private String[] candidates;
 
     public WordleGame(String gameName, String wordToGuess) {
-        this.candidates = allWords.clone(); //na poacztku wszystko jest kopiowane do candidates
+        this.candidates = allWords.clone(); //wszystkie slowa sa kopiowane do candidates
         this.gameName = gameName;
         this.wordToGuess = wordToGuess;
     }
@@ -23,14 +24,14 @@ public class WordleGame {
     private FeedbackValue[] giveFeedback(String wordToGuess, String guess) {
         FeedbackValue[] feedback = new FeedbackValue[5];
         for (int i = 0; i < 5; i++) {
-            if (guess.charAt(i) == wordToGuess.charAt(i)) {
+            if (guess.charAt(i) == wordToGuess.charAt(i)) { //porównuje literę ze slowa guess z literą wordToGuess
                 feedback[i] = FeedbackValue.GREEN;
             } else {
-                if (wordToGuess.indexOf(guess.charAt(i)) != -1) {  //jeśli litera sie znajduje w słowie to nie zwróci -1
+                if (wordToGuess.indexOf(guess.charAt(i)) != -1) { //jeśli w hasle znajduje sie litera to nie zwróci -1
                     feedback[i] = FeedbackValue.YELLOW;
                 } else {
                     feedback[i] = FeedbackValue.GRAY;
-                } //jak nie ma litery nigdzie indziej to bedzie siwe
+                } //jak nie ma litery nigdzie w słowie to bedzie szare
             }
         }
         return feedback;
@@ -39,14 +40,14 @@ public class WordleGame {
     void applyFeedback(String guess, FeedbackValue[] feedback) { // filtrowanie candidates
         for (int j = 0; j < this.candidates.length; j++) {
             String word = this.candidates[j];
-            if (word != null) { // zielone musza byc dokładnie w tym samym miejscu
-                for (int i = 0; i < word.length(); i++) {
-                    if (feedback[i] == FeedbackValue.GREEN) {
+            if (word != null) { //sprawdza czy to słowo nie zostało już odrzucone
+                for (int i = 0; i < word.length(); i++) { //petla iteruje po wszystkich literach slowa szukanegp
+                    if (feedback[i] == FeedbackValue.GREEN) { // zielone gdy litera jest dokładnie w tym samym miejscu
                         if (word.charAt(i) != guess.charAt(i)) {
                             this.candidates[j] = null;
                             break;
                         }
-                    } else if (feedback[i] == FeedbackValue.YELLOW) {
+                    } else if (feedback[i] == FeedbackValue.YELLOW) { //zolte gdy litera jest w innym miejscu
                         if (word.indexOf(guess.charAt(i)) == -1 || word.charAt(i) == guess.charAt(i)) {
                             this.candidates[j] = null;
                             break;
