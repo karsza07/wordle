@@ -1,3 +1,4 @@
+package org.example;
 public class WordleGame {
     private String[] allWords = {
             "APPLE", "BEACH", "BRAIN", "BREAD", "CHAIR",
