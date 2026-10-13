@@ -10,30 +10,23 @@ public class WordleGame {
     private String wordToGuess;
     private int guessNumber = 1;
 
-    private String[] guesses;
+    private String[] guesses = new String[6];
     private String[] candidates;
 
     public WordleGame(String gameName, String wordToGuess){
-        this.candidates = allWords; //na poacztku wszystko jest kopiowane do candidates
+        this.candidates = allWords.clone(); //na poacztku wszystko jest kopiowane do candidates
+        this.gameName = gameName;
+        this.wordToGuess = wordToGuess;
     }
 
-    public FeedbackValue[] gueesWord(String guess){
-        this.guessNumber++;
-        if (guessNumber == 7){ //przy siódmej próbi nie zadziała
-            throw new IllegalStateException("you have exceeded the amount of guesses");
-        }
-        int len = guess.length();//jak nie ma tyle liter co trzeba no to nie zadziała
-        if(len != 5){
-            throw new IllegalArgumentException("the word is the wrong length");
-        }
-
-        FeedbackValue[] feedback = new FeedbackValue[5];;
-        for(int i=0; i<=5; i++){
+    private FeedbackValue[] giveFeedback(String wordToGuess, String guess){
+        FeedbackValue[] feedback = new FeedbackValue[5];
+        for(int i=0; i<5; i++){
             if(guess.charAt(i) == wordToGuess.charAt(i)){
                 feedback[i] = FeedbackValue.GREEN;
             }
             else{
-                if(guess.indexOf(wordToGuess.charAt(i)) != -1){  //jeśli litera sie znajduje w słowie to nie zwróci -1
+                if(wordToGuess.indexOf(guess.charAt(i)) != -1){  //jeśli litera sie znajduje w słowie to nie zwróci -1
                     feedback[i] = FeedbackValue.YELLOW;
                 }
                 else feedback[i] = FeedbackValue.GRAY; //jak nie ma litery nigdzie indziej to bedzie siwe
@@ -68,6 +61,24 @@ public class WordleGame {
         }
     }
 
+    public FeedbackValue[] gueesWord(String guess){
+
+        if (guessNumber == 7){ //przy siódmej próbi nie zadziała
+            throw new IllegalStateException("you have exceeded the amount of guesses");
+        }
+        int len = guess.length();//jak nie ma tyle liter co trzeba no to nie zadziała
+        if(len != 5){
+            throw new IllegalArgumentException("the word is the wrong length");
+        }
+        this.guesses[this.guessNumber - 1] = guess;
+        this.guessNumber++;
+
+        FeedbackValue[] feedback = giveFeedback(this.wordToGuess,guess);
+        applyFeedback(guess, feedback);
+        return feedback;
+    }
+
+
     String[] getCandidates() {
         int length = 0;
 
@@ -90,9 +101,8 @@ public class WordleGame {
         return copy;
     }
 
-    private FeedbackValue giveFeedback(String wordToGuess, String guess){
 
-    }
+
 }
 
 
