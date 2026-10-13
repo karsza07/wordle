@@ -43,14 +43,26 @@ public class WordleGame {
     }
 
     void applyFeedback(String guess, FeedbackValue[] feedback){ //filtrowanie candidates
-        for(String word : this.candidates){ //nie mozna usuwac elementu z tablicy wiec usuwany element jest zmieniany na null
+        for(int j=0; j<this.candidates.length; j++){ //nie mozna usuwac elementu z tablicy wiec usuwany element jest zmieniany na null
+            String word = this.candidates[j];
             if(word != null){ //zielone musza byc dokładnie w tym samym miejscu
-                FeedbackValue[] feedbackWord = gueesWord(word);
-                for(int i=0; i<5; i++){
-                    if (feedback[i] != feedbackWord[i]) {
-                        this.candidates[i] = null;
-                        break;}
+               for(int i=0; i<word.length(); i++){
+                   if (feedback[i] == FeedbackValue.GREEN){
+                       if(word.charAt(i)!= guess.charAt(i)){
+                           this.candidates[j] = null;
+                           break;
+                       }
+                   }
+                   else if (feedback[i]==FeedbackValue.YELLOW){
+                       if (word.indexOf(guess.charAt(i)) == -1 || word.charAt(i) == guess.charAt(i)) {
+                           this.candidates[j] = null;
+                           break;
+                       }
                 }
+                   else {
+                       if(word.indexOf(guess.charAt(i)) != -1){
+                           this.candidates[j] = null;
+                           break;
             }
         }
     }
