@@ -42,44 +42,51 @@ public class WordleGame {
         return feedback;
     }
 
-    void applyFeedback(String guess, FeedbackValue[] feedback){ //filtrowanie candidates
-        for(int j=0; j<this.candidates.length; j++){ //nie mozna usuwac elementu z tablicy wiec usuwany element jest zmieniany na null
+    void applyFeedback(String guess, FeedbackValue[] feedback) { // filtrowanie candidates
+        for (int j = 0; j < this.candidates.length; j++) { // nie mozna usuwac elementu z tablicy wiec usuwany element jest zmieniany na null
             String word = this.candidates[j];
-            if(word != null){ //zielone musza byc dokładnie w tym samym miejscu
-               for(int i=0; i<word.length(); i++){
-                   if (feedback[i] == FeedbackValue.GREEN){
-                       if(word.charAt(i)!= guess.charAt(i)){
-                           this.candidates[j] = null;
-                           break;
-                       }
-                   }
-                   else if (feedback[i]==FeedbackValue.YELLOW){
-                       if (word.indexOf(guess.charAt(i)) == -1 || word.charAt(i) == guess.charAt(i)) {
-                           this.candidates[j] = null;
-                           break;
-                       }
+            if (word != null) { // zielone musza byc dokładnie w tym samym miejscu
+                for (int i = 0; i < word.length(); i++) {
+                    if (feedback[i] == FeedbackValue.GREEN) {
+                        if (word.charAt(i) != guess.charAt(i)) {
+                            this.candidates[j] = null;
+                            break;
+                        }
+                    } else if (feedback[i] == FeedbackValue.YELLOW) {
+                        if (word.indexOf(guess.charAt(i)) == -1 || word.charAt(i) == guess.charAt(i)) {
+                            this.candidates[j] = null;
+                            break;
+                        }
+                    } else {
+                        if (word.indexOf(guess.charAt(i)) != -1) {
+                            this.candidates[j] = null;
+                            break;
+                        }
+                    }
                 }
-                   else {
-                       if(word.indexOf(guess.charAt(i)) != -1){
-                           this.candidates[j] = null;
-                           break;
             }
         }
     }
 
-    String[] getCandidates(){
-        int indeks = 0;
+    String[] getCandidates() {
+        int length = 0;
 
-        for(String word : this.candidates){ //usuwanie nullow
-            if(word != null){
-                indeks ++;
+        for (String word : this.candidates) {
+            if (word != null) {
+                length++;
             }
         }
-        String[] copy = new String[indeks];
 
-        for(int i=0; i<indeks; i++){
-            if(this.candidates[i] != null) copy[i] = this.candidates[i];
+        String[] copy = new String[length];
+        int copyIndex = 0;
+
+        for (String word : this.candidates) {
+            if (word != null) {
+                copy[copyIndex] = word;
+                copyIndex++;
+            }
         }
+
         return copy;
     }
 
@@ -87,3 +94,6 @@ public class WordleGame {
 
     }
 }
+
+
+
