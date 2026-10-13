@@ -3,7 +3,7 @@ public class WordleGame {
             "APPLE", "BEACH", "BRAIN", "BREAD", "CHAIR",
             "CLOCK", "DREAM", "EARTH", "FLAME", "GHOST",
             "HEART", "HOUSE", "LIGHT", "MUSIC", "PLANT",
-            "RIVER", "SMILE", "TRAIN", "WATER", "WORLD"
+            "RIVER", "SMILE", "TRAIN", "WATER", "WORLD" //20 slow
     };
 
     private String gameName;
@@ -22,7 +22,7 @@ public class WordleGame {
         if (guessNumber == 7){ //przy siódmej próbi nie zadziała
             throw new IllegalStateException("you have exceeded the amount of guesses");
         }
-        int len = guess.length();
+        int len = guess.length();//jak nie ma tyle liter co trzeba no to nie zadziała
         if(len != 5){
             throw new IllegalArgumentException("the word is the wrong length");
         }
