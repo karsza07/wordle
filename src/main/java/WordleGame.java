@@ -13,30 +13,30 @@ public class WordleGame {
     private String[] guesses = new String[6];
     private String[] candidates;
 
-    public WordleGame(String gameName, String wordToGuess){
+    public WordleGame(String gameName, String wordToGuess) {
         this.candidates = allWords.clone(); //na poacztku wszystko jest kopiowane do candidates
         this.gameName = gameName;
         this.wordToGuess = wordToGuess;
     }
 
-    private FeedbackValue[] giveFeedback(String wordToGuess, String guess){
+    private FeedbackValue[] giveFeedback(String wordToGuess, String guess) {
         FeedbackValue[] feedback = new FeedbackValue[5];
-        for(int i=0; i<5; i++){
-            if(guess.charAt(i) == wordToGuess.charAt(i)){
+        for (int i = 0; i < 5; i++) {
+            if (guess.charAt(i) == wordToGuess.charAt(i)) {
                 feedback[i] = FeedbackValue.GREEN;
-            }
-            else{
-                if(wordToGuess.indexOf(guess.charAt(i)) != -1){  //jeśli litera sie znajduje w słowie to nie zwróci -1
+            } else {
+                if (wordToGuess.indexOf(guess.charAt(i)) != -1) {  //jeśli litera sie znajduje w słowie to nie zwróci -1
                     feedback[i] = FeedbackValue.YELLOW;
-                }
-                else feedback[i] = FeedbackValue.GRAY; //jak nie ma litery nigdzie indziej to bedzie siwe
+                } else {
+                    feedback[i] = FeedbackValue.GRAY;
+                } //jak nie ma litery nigdzie indziej to bedzie siwe
             }
         }
         return feedback;
     }
 
     void applyFeedback(String guess, FeedbackValue[] feedback) { // filtrowanie candidates
-        for (int j = 0; j < this.candidates.length; j++) { // nie mozna usuwac elementu z tablicy wiec usuwany element jest zmieniany na null
+        for (int j = 0; j < this.candidates.length; j++) {
             String word = this.candidates[j];
             if (word != null) { // zielone musza byc dokładnie w tym samym miejscu
                 for (int i = 0; i < word.length(); i++) {
@@ -61,13 +61,13 @@ public class WordleGame {
         }
     }
 
-    public FeedbackValue[] gueesWord(String guess){
+    public FeedbackValue[] gueesWord(String guess) {
 
-        if (guessNumber == 7){ //przy siódmej próbi nie zadziała
+        if (guessNumber == 7) { //przy siódmej próbi nie zadziała
             throw new IllegalStateException("you have exceeded the amount of guesses");
         }
         int len = guess.length();//jak nie ma tyle liter co trzeba no to nie zadziała
-        if(len != 5){
+        if (len != 5) {
             throw new IllegalArgumentException("the word is the wrong length");
         }
         this.guesses[this.guessNumber - 1] = guess;
