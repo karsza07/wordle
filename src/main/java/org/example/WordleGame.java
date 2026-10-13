@@ -63,7 +63,7 @@ public class WordleGame {
         }
     }
 
-    public FeedbackValue[] gueesWord(String guess) {
+    public FeedbackValue[] guessWord(String guess) {
 
         if (guessNumber == 7) { //przy siódmej próbi nie zadziała
             throw new IllegalStateException("you have exceeded the amount of guesses");
