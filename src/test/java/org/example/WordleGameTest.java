@@ -64,4 +64,16 @@ public class WordleGameTest {
         }
     }
 
+    @Test
+    @DisplayName("metoda sprawdza czy kolory dopasowują sie poprawnie")
+    void shouldReturnDifferentColors() {
+        FeedbackValue[] feedback = game.guessWord("SWEAR");
+        assertEquals(FeedbackValue.GRAY, feedback[0]);
+        assertEquals(FeedbackValue.YELLOW, feedback[1]);
+        assertEquals(FeedbackValue.YELLOW, feedback[2]);
+        assertEquals(FeedbackValue.YELLOW, feedback[3]);
+        assertEquals(FeedbackValue.GREEN, feedback[4]);
+        }
+    }
+
 }
