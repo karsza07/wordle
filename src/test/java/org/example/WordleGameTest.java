@@ -5,7 +5,15 @@ import org.junit.jupiter.api.DisplayName;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class WordleGameTest {
-    private WordleGame game = new WordleGame("Test", "WATER");
+    String[] allWords = {
+            "APPLE", "BEACH", "BRAIN", "BREAD", "CHAIR",
+            "CLOCK", "DREAM", "EARTH", "FLAME", "GHOST",
+            "HEART", "HOUSE", "LIGHT", "MUSIC", "PLANT",
+            "RIVER", "SMILE", "TRAIN", "WATER", "WORLD" //20 slow
+    };
+
+    private WordleSolver solver = new WordleSolver(allWords);
+    private WordleGame game = new WordleGame("Test", "WATER", solver);
 
     @Test
     @DisplayName("Metoda guessWord powinna rzucić IllegalArgumentException gdy słowo nie ma 5 liter")
@@ -13,6 +21,14 @@ public class WordleGameTest {
         String word = "New";
         assertThrows(IllegalArgumentException.class, () -> {
             game.guessWord(word);
+        });
+    }
+
+    @Test
+    @DisplayName("guessWord powinno rzucic wyjatek jesli argumentem jest null")
+    void shoulThrowExceptionIfArgumentNull(){
+        assertThrows(IllegalArgumentException.class, () -> {
+            game.guessWord(null);
         });
     }
 
@@ -29,31 +45,6 @@ public class WordleGameTest {
         });
     }
 
-    @Test
-    @DisplayName("testowanie czy metoda getCandidates nie zwraca nulli")
-    void shouldReturnCandidtesWithoutNull() {
-        String[] candidates = game.getCandidates();
-        for (int i = 0; i < candidates.length; i++) {
-            assertNotNull(candidates[i]);
-        }
-    }
-
-    @Test
-    @DisplayName("testowanie czy metoda getCandidates napewno zwraca kopie")
-    void shouldReturnCopy() {
-        String[] can1 = game.getCandidates();
-        String[] can2 = game.getCandidates();
-        assertNotSame(can1, can2);
-    }
-
-    @Test
-    @DisplayName("sprawdzający, czy po podaniu próby liczba pozostałych słów w getCandidates() faktycznie się zmniejsza.")
-    void shouldReturnLessCandidates() {
-        String[] can1 = game.getCandidates();
-        game.guessWord("APPLE"); //metoda guess word wywyołuje apply feedback
-        String[] can2 = game.getCandidates();
-        assertTrue(can1.length > can2.length);
-    }
 
     @Test
     @DisplayName("metoda po podaniu poprawnego hasła powinna zwrócić wszystko na zielono")
